@@ -426,8 +426,8 @@ public:
 
     cTelnet mTelnet;
     QPointer<TMainConsole> mpConsole;
-    dlgPackageManager* mpPackageManager;
-    dlgModuleManager* mpModuleManager;
+    QPointer<dlgPackageManager> mpPackageManager;
+    QPointer<dlgModuleManager> mpModuleManager;
     TLuaInterpreter mLuaInterpreter;
 
     int commandLineMinimumHeight;
@@ -444,15 +444,15 @@ public:
     bool mEchoLuaErrors;
     QFont mCommandLineFont;
     QString mCommandSeparator;
-    bool mEnableGMCP;
-    bool mEnableMSSP;
-    bool mEnableMSDP;
-    bool mEnableMSP;
+    bool mEnableGMCP = true;
+    bool mEnableMSSP = true;
+    bool mEnableMSDP = true;
+    bool mEnableMSP = true;
     bool mEnableMTTS = true;
     bool mEnableMNES = false;
-    bool mServerMXPenabled;
-    bool mAskTlsAvailable;
-    int mMSSPTlsPort;
+    bool mServerMXPenabled = true;
+    bool mAskTlsAvailable = true;
+    int mMSSPTlsPort = 0;
     QString mMSSPHostName;
 
     TMxpMudlet mMxpClient;
@@ -560,6 +560,7 @@ public:
     QString mEditorTheme;
     // code editor theme file on disk for edbee to load
     QString mEditorThemeFile;
+    void editorThemeChanged();
 
     // search engine URL prefix to search query
     QMap<QString, QString> mSearchEngineData;
@@ -683,7 +684,6 @@ public:
     QMap<QString, QKeySequence*> profileShortcuts;
 
     bool mTutorialForCompactLineAlreadyShown;
-    bool mTutorialForSplitscreenScrollbackAlreadyShown = false;
 
     bool mAnnounceIncomingText = true;
     bool mAdvertiseScreenReader = false;
@@ -714,13 +714,14 @@ signals:
     void profileSaveFinished();
     void signal_changeSpellDict(const QString&);
     // To tell all TConsole's upper TTextEdit panes to report all Codepoint
-    // problems as they arrive as well as a summery upon destruction:
+    // problems as they arrive as well as a summary upon destruction:
     void signal_changeDebugShowAllProblemCodepoints(const bool);
     // Tells all consoles associated with this Host (but NOT the Central Debug
     // one) to change the way they show  control characters:
     void signal_controlCharacterHandlingChanged(const ControlCharacterMode);
     // Tells all command lines to save their history:
     void signal_saveCommandLinesHistory();
+    void signal_editorThemeChanged();
 
 private slots:
     void slot_purgeTemps();
